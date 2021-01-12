@@ -1,0 +1,83 @@
+<v-app id="app">
+    <v-navigation-drawer
+            v-model="drawer"
+            fixed
+            app
+    >
+        <v-list
+                dense
+                nav
+        >
+            <v-list-item to="/" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>home</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Home
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/todo" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>list</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        ToDos
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/chart" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>bar_chart</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Charts
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/upload" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>cloud_upload</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Upload
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/sync" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>sync</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Vue Sync Example
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="/collections" @click="drawer = !drawer">
+                <v-list-item-action>
+                    <v-icon>mdi-code-tags</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Collections
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+    <v-app-bar color="primary" dark fixed app flat clipped-right>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title>Demo</v-toolbar-title>
+    </v-app-bar>
+    <v-content>
+        <router-view></router-view>
+    </v-content>
+    <v-footer color="primary" app>
+        <a href="http://www.ascend-tech.us" class="white--text" style="text-decoration: none; margin-left: 5px">Backed by Ascendant Software Technology, LLC</a>
+    </v-footer>
+</v-app>

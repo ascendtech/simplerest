@@ -1,0 +1,27 @@
+<v-container fluid>
+    <v-row>
+        <v-col cols="12">
+            <div slot="header">Upload</div>
+            <vue-dropzone style="margin:15px" ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
+                          @vdropzone-success="onSuccess">
+            </vue-dropzone>
+        </v-col>
+    </v-row>
+
+    <v-snackbar
+            v-model="showMessage"
+            top="true"
+            right="true"
+            color="success"
+    >
+        {{ message }}
+        <v-btn
+                color="pink"
+                flat
+                @click="showMessage = false"
+        >
+            Close
+        </v-btn>
+    </v-snackbar>
+
+</v-container>
