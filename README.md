@@ -27,7 +27,8 @@ public interface ToDoServiceClient {
 }
 ```
 
-### DTO objects should be defined as JS native objects on the client and POJO on the backend
+### Define DTO objects
+DTOs should be defined as JS native objects on the client and POJO on the backend
 ```java
 @JsType(namespace = GLOBAL, name = "Object", isNative = true)
 public class ToDoDTO {
@@ -82,9 +83,11 @@ public class ToDoController {
 }
 ```
 
-### Build code to generate client implementions using annotation processing.   From ToDoServiceClient a class ToDoServiceClientSimpleRest will be generated.
+### Build code to generate client implementions using annotation processing
+From ToDoServiceClient a class ToDoServiceClientSimpleRest will be generated.
 
-### Create service.  Service can be made static in a singleton class and shared
+### Create service
+Service can be made static in a singleton class and shared
 ```java
 String baseUrl = DomGlobal.window.location.protocol + "//" + DomGlobal.window.location.host;
 ToDoServiceClient todoServiceClient = new ToDoServiceClientSimpleRest(baseUrl);
