@@ -1,3 +1,7 @@
+# GWT REST Client using Fetch API
+* Supports evergreen browsers (more details: https://caniuse.com/fetch)
+* For IE11 support see https://github.com/github/fetch
+
 
 # Usage
 
