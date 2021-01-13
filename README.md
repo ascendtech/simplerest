@@ -27,7 +27,7 @@ public interface ToDoServiceClient {
 }
 ```
 
-### DTO objects should be defined as JS native objects on the client
+### DTO objects should be defined as JS native objects on the client and POJO on the backend
 ```java
 @JsType(namespace = GLOBAL, name = "Object", isNative = true)
 public class ToDoDTO {
