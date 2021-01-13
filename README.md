@@ -46,42 +46,41 @@ ToDoServiceClient todoServiceClient = new ToDoServiceClientSimpleRest(baseUrl);
 * Use service
 ```java
 todoServiceClient.addToDo(newToDoDTO, new SingleCallback<ToDoDTO>() {
-		@Override
-		public void onData(ToDoDTO data) {
+    @Override
+    public void onData(ToDoDTO data) {
 		
-		}
+    }
 
-		@Override
-		public void onError(int statusCode, String status, String errorBody) {
-		
-		
+    @Override
+    public void onError(int statusCode, String status, String errorBody) {
+	
     }
 });
 
 
 todoServiceClient.deleteToDo(currentValue.getId(), new CompletableCallback() {
     @Override
-		public void onDone() {
-		
+    public void onDone() {
+	
     }
 
-		@Override
-		public void onError(int statusCode, String status, String errorBody) {
+    @Override
+    public void onError(int statusCode, String status, String errorBody) {
 						
-		}
+    }
 
 });
 
 todoServiceClient.getCurrentToDos(new MultipleCallback<ToDoDTO>() {
-			@Override
-			public void onData(ToDoDTO[] data) {
+    @Override
+    public void onData(ToDoDTO[] data) {
 
-			}
+    }
 
-			@Override
-			public void onError(int statusCode, String status, String errorBody) {
+    @Override 
+    public void onError(int statusCode, String status, String errorBody) {
 
-			}
+    }
 });
 
 ```
