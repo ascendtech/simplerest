@@ -83,7 +83,7 @@ public class SimpleRequestBuilder {
 				}
 				else {
 					throw new UnsupportedOperationException(
-							"Last parameter must be a callback of type SingleCallback, MultipleCallback, or CompletableCallback");
+							"Last parameter must be a callback of type SingleStringCallback, SingleCallback, MultipleCallback, or CompletableCallback");
 				}
 			}
 			else {
@@ -137,14 +137,16 @@ public class SimpleRequestBuilder {
 	}
 
 	public SimpleRequestBuilder path(Object... paths) {
-		for (Object path : paths)
+		for (Object path : paths) {
 			path(Objects.toString(Objects.requireNonNull(path, "path required")));
+		}
 		return this;
 	}
 
 	public SimpleRequestBuilder path(String path) {
-		if (path.isEmpty())
+		if (path.isEmpty()) {
 			throw new IllegalArgumentException("non-empty path required");
+		}
 		this.paths.add(path);
 		return this;
 	}
@@ -170,9 +172,9 @@ public class SimpleRequestBuilder {
 	private void handleLists(String key, Object value, List<Param> params) {
 		if (value != null) {
 			if ((value instanceof Iterable<?>)) {
-				for (Object v : ((Iterable<?>) value))
+				for (Object v : ((Iterable<?>) value)) {
 					params.add(new Param(key, v));
-
+				}
 			}
 			else {
 				params.add(new Param(key, value));
