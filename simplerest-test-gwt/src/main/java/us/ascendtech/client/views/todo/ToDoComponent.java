@@ -37,7 +37,7 @@ public class ToDoComponent implements IsVueComponent, HasBeforeMount, HasCreated
 	GridApi<ToDoDTO> gridApi;
 
 	@Data
-	JsArray<ColumnDefinition> columnDefs = new JsArray<>();
+	JsArray<ColumnDefinition<ToDoDTO>> columnDefs = new JsArray<>();
 
 	@Data
 	JsArray<ToDoDTO> rowData = new JsArray<>();
