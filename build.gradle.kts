@@ -27,13 +27,6 @@ subprojects {
         mavenCentral()
     }
 
-    val sourcesJar = tasks.register<Jar>("sourcesJar") {
-        archiveClassifier.set("sources")
-        from(sourceSets.getByName("main").allSource)
-    }
-
-    artifacts.add("archives", sourcesJar)
-
     tasks.withType<JavaCompile> {
         options.isDebug = true
         options.debugOptions.debugLevel = "source,lines,vars"
@@ -53,7 +46,7 @@ subprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        //withSourcesJar()
+        withSourcesJar()
     }
 
 
