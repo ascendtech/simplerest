@@ -93,6 +93,9 @@ public class SimpleRequestBuilder {
 				});
 			}
 			return null;
+		}).catch_(error -> {
+			callback.onError(-1, "TypeError", error.toString());
+			return null;
 		});
 
 	}
