@@ -6,6 +6,25 @@
 
 # Usage
 
+
+Add AST Repo
+```gradle
+  allprojects {
+    repositories {
+      ...
+      maven { url 'https://maven.ascend-tech.us/repo' }
+    }
+  }
+```
+
+Add Dependency:
+```gradle
+  compile 'us.ascendtech:simplerest-core:0.2.0'
+  compile 'us.ascendtech:simplerest-core:0.2.0:sources'
+  annotationProcessor 'us.ascendtech:simplerest-processor:0.2.0'
+  annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'  
+```
+
 ### Define a Client Service Definition
 ```java
 
