@@ -150,19 +150,19 @@ public class SimpleRestGwtProcessor extends AbstractProcessor {
 					.forEach(p -> builder.add(".form($S, $L)", p.getAnnotation(FormParam.class).value(), p.getSimpleName()));
 			// data
 
-			VariableElement lastParam = method.getParameters().stream().reduce((first, second) -> second).orElse(null);
+			int numParams = method.getParameters().size();
 
-			if (lastParam == null) {
-				throw new RuntimeException("Must be a callback parameter at minimum in method <" + methodName + ">");
-			}
-			else {
-
+			if (numParams < 2) {
+				throw new RuntimeException("Must be a data and error callback parameter at minimum in method <" + methodName + ">");
 			}
 
-			method.getParameters().stream().filter(p -> !isParam(p) && p != lastParam).findFirst()
+			VariableElement secondToLastParam = method.getParameters().get(numParams - 2);
+			VariableElement lastParam = method.getParameters().get(numParams - 1);
+
+			method.getParameters().stream().filter(p -> !isParam(p) && (p != secondToLastParam && p != lastParam)).findFirst()
 					.ifPresent(data -> builder.add(".data($L)", data.getSimpleName()));
 
-			builder.add(".execute($L);\n$]", lastParam.getSimpleName());
+			builder.add(".execute($L,$L);\n$]", secondToLastParam.getSimpleName(), lastParam.getSimpleName());
 
 			modelTypeBuilder.addMethod(MethodSpec.overriding(method).addCode(builder.build()).build());
 		}

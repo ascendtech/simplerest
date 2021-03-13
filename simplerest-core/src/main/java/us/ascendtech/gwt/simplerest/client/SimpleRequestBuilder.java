@@ -52,7 +52,7 @@ public class SimpleRequestBuilder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S, T> void execute(SimpleRestCallback<T> callback) {
+	public <S, T> void execute(SimpleRestCallback<T> callback, ErrorCallback errorCallback) {
 
 		request().then(response -> {
 			if (response.ok) {
@@ -83,18 +83,18 @@ public class SimpleRequestBuilder {
 				}
 				else {
 					throw new UnsupportedOperationException(
-							"Last parameter must be a callback of type SingleStringCallback, SingleCallback, MultipleCallback, or CompletableCallback");
+							"Second to last parameter must be a callback of type SingleStringCallback, SingleCallback, MultipleCallback, or CompletableCallback");
 				}
 			}
 			else {
 				response.text().then(text -> {
-					callback.onError(response.status, response.statusText, Js.cast(text));
+					errorCallback.onError(response.status, response.statusText, Js.cast(text));
 					return null;
 				});
 			}
 			return null;
 		}).catch_(error -> {
-			callback.onError(-1, "TypeError", error.toString());
+			errorCallback.onError(-1, "TypeError", error.toString());
 			return null;
 		});
 
