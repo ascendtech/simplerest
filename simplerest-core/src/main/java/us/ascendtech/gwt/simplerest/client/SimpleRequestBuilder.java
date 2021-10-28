@@ -17,6 +17,7 @@ import java.util.Objects;
 import static javax.ws.rs.core.HttpHeaders.ACCEPT;
 import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_HTML;
 
 public class SimpleRequestBuilder {
 
@@ -54,7 +55,9 @@ public class SimpleRequestBuilder {
 	@SuppressWarnings("unchecked")
 	public <S, T> void execute(SimpleRestCallback<T> callback, ErrorCallback errorCallback) {
 
-		request().then(response -> {
+		boolean textResponse = (callback instanceof SingleStringCallback);
+
+		request(textResponse).then(response -> {
 			if (response.ok) {
 				if (callback instanceof SingleStringCallback) {
 					response.text().then(text -> {
@@ -100,7 +103,7 @@ public class SimpleRequestBuilder {
 
 	}
 
-	public Promise<Response> request() {
+	public Promise<Response> request(boolean textResponse) {
 		RequestInit requestInit = RequestInit.create();
 		requestInit.setCredentials("same-origin");
 		requestInit.setMethod(method);
@@ -122,7 +125,12 @@ public class SimpleRequestBuilder {
 				headers.append(CONTENT_TYPE, APPLICATION_JSON);
 			}
 			if (headers.get(ACCEPT) == null) {
-				headers.append(ACCEPT, APPLICATION_JSON);
+				if (!textResponse) {
+					headers.append(ACCEPT, APPLICATION_JSON);
+				}
+				else {
+					headers.append(ACCEPT, TEXT_HTML);
+				}
 			}
 			requestInit.setBody(Global.JSON.stringify(data));
 		}
