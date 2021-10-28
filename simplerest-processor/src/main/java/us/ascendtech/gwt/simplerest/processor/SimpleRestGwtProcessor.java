@@ -23,6 +23,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.tools.Diagnostic.Kind;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -30,6 +31,7 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -138,6 +140,15 @@ public class SimpleRestGwtProcessor extends AbstractProcessor {
 													.orElse(false)).findFirst().map(VariableElement::getSimpleName).map(Object::toString)
 											// next comment will produce a compilation error so the user get notified
 											.orElse("/* path param " + path + " does not match any argument! */")).collect(Collectors.joining(", ")));
+
+			// produces
+			builder.add(".produces($L)",
+					Arrays.stream(ofNullable(method.getAnnotation(Produces.class)).map(Produces::value).orElse(new String[] {})).map(str -> "\"" + str + "\"")
+							.collect(Collectors.joining(", ")));
+			// consumes
+			builder.add(".consumes($L)",
+					Arrays.stream(ofNullable(method.getAnnotation(Consumes.class)).map(Consumes::value).orElse(new String[] {})).map(str -> "\"" + str + "\"")
+							.collect(Collectors.joining(", ")));
 
 			// query params
 			method.getParameters().stream().filter(p -> p.getAnnotation(QueryParam.class) != null)

@@ -43,6 +43,8 @@ public class SimpleRequestBuilder {
 	protected List<Param> formParams = new ArrayList<>();
 	protected String method = HttpMethod.GET;
 	protected Object data = null;
+	private String[] produces = {};
+	private String[] consumes = {};
 
 	public SimpleRequestBuilder(String base) {
 		this.base = base.endsWith("/") ? base.substring(0, base.length() - 1) : base;
@@ -122,14 +124,28 @@ public class SimpleRequestBuilder {
 		}
 		else if (data != null) {
 			if (headers.get(CONTENT_TYPE) == null) {
-				headers.append(CONTENT_TYPE, APPLICATION_JSON);
-			}
-			if (headers.get(ACCEPT) == null) {
-				if (!textResponse) {
-					headers.append(ACCEPT, APPLICATION_JSON);
+				if (consumes.length > 0) {
+					for (String consume : consumes) {
+						headers.append(CONTENT_TYPE, consume);
+					}
 				}
 				else {
-					headers.append(ACCEPT, TEXT_HTML);
+					headers.append(CONTENT_TYPE, APPLICATION_JSON);
+				}
+			}
+			if (headers.get(ACCEPT) == null) {
+				if (produces.length > 0) {
+					for (String produce : produces) {
+						headers.append(ACCEPT, produce);
+					}
+				}
+				else {
+					if (!textResponse) {
+						headers.append(ACCEPT, APPLICATION_JSON);
+					}
+					else {
+						headers.append(ACCEPT, TEXT_HTML);
+					}
 				}
 			}
 			requestInit.setBody(Global.JSON.stringify(data));
@@ -162,13 +178,18 @@ public class SimpleRequestBuilder {
 		return this;
 	}
 
-	public SimpleRequestBuilder param(String key, Object value) {
-		Objects.requireNonNull(key, "query param key required");
-		handleLists(key, value, queryParams);
+	public SimpleRequestBuilder produces(String... produces) {
+		this.produces = produces;
 		return this;
 	}
 
-	public SimpleRequestBuilder header(String key, Object value) {
+	public SimpleRequestBuilder consumes(String... consumes) {
+		if (consumes.length > 0 /*0 means undefined, so do not override default*/)
+			this.consumes = consumes;
+		return this;
+	}
+
+	public SimpleRequestBuilder produces(String key, Object value) {
 		Objects.requireNonNull(key, "header param key required");
 		handleLists(key, value, headerParams);
 		return this;
