@@ -19,9 +19,9 @@ Add AST Repo
 
 Add Dependency:
 ```gradle
-  compile 'us.ascendtech:simplerest-core:0.2.0'
-  compile 'us.ascendtech:simplerest-core:0.2.0:sources'
-  annotationProcessor 'us.ascendtech:simplerest-processor:0.2.0'
+  compile 'us.ascendtech:simplerest-core:0.3.0'
+  compile 'us.ascendtech:simplerest-core:0.3.0:sources'
+  annotationProcessor 'us.ascendtech:simplerest-processor:0.3.0'
   annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'  
 ```
 
@@ -34,19 +34,19 @@ public interface ToDoServiceClient {
 
 	@GET
 	@Path("/list")
-	void getCurrentToDos(MultipleCallback<ToDoDTO> callback);
+	void getCurrentToDos(MultipleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 	@PUT
 	@Path("/add")
-	void addToDo(ToDoDTO toDo, SingleCallback<ToDoDTO> callback);
+	void addToDo(ToDoDTO toDo, SingleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 	@DELETE
 	@Path("/delete/{id}")
-	void deleteToDo(@PathParam("id") Integer id, CompletableCallback callback);
+	void deleteToDo(@PathParam("id") Integer id, CompletableCallback callback, ErrorCallback errorCallback);
 
 	@POST
 	@Path("/search/{query}")
-	void searchToDos(@PathParam("query") String query, MultipleCallback<ToDoDTO> callback);
+	void searchToDos(@PathParam("query") String query, MultipleCallback<ToDoDTO> callback, ErrorCallback errorCallback);
 
 }
 ```
@@ -123,11 +123,11 @@ todoServiceClient.addToDo(newToDoDTO, new SingleCallback<ToDoDTO>() {
 	@Override
 	public void onData(ToDoDTO data) {
 
-	}
+	}}, new ErrorCallback() {
 
 	@Override
 	public void onError(int statusCode, String status, String errorBody) {
-	
+
 	}
 });
 
@@ -136,22 +136,21 @@ todoServiceClient.deleteToDo(currentValue.getId(), new CompletableCallback() {
 	@Override
 	public void onDone() {
 	
-	}
+	}}, new ErrorCallback() {
 
 	@Override
 	public void onError(int statusCode, String status, String errorBody) {
-					
-	}
 
+	}
 });
 
 todoServiceClient.getCurrentToDos(new MultipleCallback<ToDoDTO>() {
 	@Override
 	public void onData(ToDoDTO[] data) {
 
-	}
+	}}, new ErrorCallback() {
 
-	@Override 
+	@Override
 	public void onError(int statusCode, String status, String errorBody) {
 
 	}
