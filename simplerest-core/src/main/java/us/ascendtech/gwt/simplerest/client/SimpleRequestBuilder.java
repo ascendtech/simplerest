@@ -189,7 +189,13 @@ public class SimpleRequestBuilder {
 		return this;
 	}
 
-	public SimpleRequestBuilder produces(String key, Object value) {
+	public SimpleRequestBuilder param(String key, Object value) {
+		Objects.requireNonNull(key, "query param key required");
+		handleLists(key, value, queryParams);
+		return this;
+	}
+
+	public SimpleRequestBuilder header(String key, Object value) {
 		Objects.requireNonNull(key, "header param key required");
 		handleLists(key, value, headerParams);
 		return this;
