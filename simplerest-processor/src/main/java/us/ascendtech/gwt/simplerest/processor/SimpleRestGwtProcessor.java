@@ -95,6 +95,9 @@ public class SimpleRestGwtProcessor extends AbstractProcessor {
 
 	private void processRestService(TypeElement restService) throws Exception {
 		String rsPath = restService.getAnnotation(Path.class).value();
+		String[] empty = {};
+		String[] produces = ofNullable(restService.getAnnotation(Produces.class)).map(Produces::value).orElse(empty);
+		String[] consumes = ofNullable(restService.getAnnotation(Consumes.class)).map(Consumes::value).orElse(empty);
 
 		ClassName rsName = ClassName.get(restService);
 		log("rest service interface: " + rsName);
@@ -143,11 +146,11 @@ public class SimpleRestGwtProcessor extends AbstractProcessor {
 
 			// produces
 			builder.add(".produces($L)",
-					Arrays.stream(ofNullable(method.getAnnotation(Produces.class)).map(Produces::value).orElse(new String[] {})).map(str -> "\"" + str + "\"")
+					Arrays.stream(ofNullable(method.getAnnotation(Produces.class)).map(Produces::value).orElse(produces)).map(str -> "\"" + str + "\"")
 							.collect(Collectors.joining(", ")));
 			// consumes
 			builder.add(".consumes($L)",
-					Arrays.stream(ofNullable(method.getAnnotation(Consumes.class)).map(Consumes::value).orElse(new String[] {})).map(str -> "\"" + str + "\"")
+					Arrays.stream(ofNullable(method.getAnnotation(Consumes.class)).map(Consumes::value).orElse(consumes)).map(str -> "\"" + str + "\"")
 							.collect(Collectors.joining(", ")));
 
 			// query params
