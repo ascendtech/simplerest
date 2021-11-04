@@ -53,7 +53,7 @@ public interface ToDoServiceClientSync {
 
 
 
-### Define a Client Service Definition Async Syntax (Legacy Syntax)
+### Define a Client Service Definition Async Syntax (Legacy Syntax) (Usage will be same as above Sync version)
 ```java
 
 @SimpleRestGwt
