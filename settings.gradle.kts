@@ -1,6 +1,13 @@
-include(":simplerest-processor")
-//include(":simplerest-processor-test")
-include(":simplerest-core")
+import java.io.FilenameFilter
 
+val excludes = listOf(".gradle", ".git", ".idea", "build", "cert", "gradle", "notInMaven")
 
+val dirFilter = FilenameFilter { dir, name -> File(dir, name).isDirectory }
 
+File(rootDir.absolutePath).list(dirFilter).forEach {
+    if (!excludes.contains(it)) {
+        include(it)
+    }
+}
+
+rootProject.name = "SimpleREST"
